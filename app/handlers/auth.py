@@ -9,9 +9,9 @@ from app.models import User
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 def has_invalid_characters(username, password):
-    # Определяем запрещенные символы
-    pattern = re.compile(r'[^a-zA-Z0-9]')
     # Проверяем имя пользователя и пароль на наличие запрещенных символов
+    # Запрещенные символы: всё, что не является буквой или цифрой
+    pattern = re.compile(r'[^a-zA-Z0-9]')
     if pattern.search(username) or pattern.search(password):
         return True
     return False

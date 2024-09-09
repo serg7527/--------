@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, request, flash, redirect, url_for, render_template
-from flask_login import login_required
+from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
 from app.config import app, db
@@ -15,15 +15,16 @@ def add_ad():
     if request.method == "POST":
         title = request.form["title"]
         description = request.form["description"]
-        image = request.files.get("image")  # Используем get() для безопасного доступа
+        image = request.files.get("image")
 
         # Сохранение изображения на сервере
         image_filename = None
         if image:
-            image_filename = secure_filename(image.filename)  # Безопасное имя файла
+            image_filename = secure_filename(image.filename)
             image.save(os.path.join(app.config["UPLOAD_FOLDER"], image_filename))
 
-        new_ad = Ad(title=title, description=description, image_filename=image_filename)
+        # Создаем объявление с указанием на владельца (текущего пользователя)
+        new_ad = Ad(title=title, description=description, image_filename=image_filename, user_id=current_user.id)
         db.session.add(new_ad)
         db.session.commit()
 
@@ -33,10 +34,16 @@ def add_ad():
     return render_template("add_ad.html")
 
 
+
 @bp.route("/edit/<int:ad_id>", methods=["GET", "POST"])
 @login_required
 def edit_ad(ad_id):
     ad = Ad.query.get_or_404(ad_id)
+
+    # Проверяем, является ли текущий пользователь владельцем объявления
+    if ad.user_id != current_user.id:
+        flash("У вас нет прав для редактирования этого объявления.", "error")
+        return redirect(url_for("home.index"))
 
     if request.method == "POST":
         title = request.form["title"]
@@ -67,6 +74,8 @@ def edit_ad(ad_id):
         return redirect(url_for("home.index"))
 
     return render_template("edit_ad.html", ad=ad)
+
+
 
 
 @bp.route("/delete/<int:ad_id>", methods=["POST"])
