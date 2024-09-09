@@ -2,21 +2,22 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h1 class="text-center text-primary">Добро пожаловать на сайт <span class="font-weight-bold">"ОДИНОЧКА.БАЙ"</span></h1>
+        <h1 class="text-center text-primary mb-4">Добро пожаловать на сайт <span class="font-weight-bold">"ОДИНОЧКА.БАЙ"</span></h1>
 
         <h2 class="text-center text-secondary mt-3">Поиск, продажа, обмен одиночной шины, для любого вида техники:</h2>
+        
+        <hr class="my-4">
 
         <ul class="row mt-4">
         {% if ads %}
             {% for ad in ads %}
-                <li class="col-md-4 mb-3">
-                    <div class="card shadow-sm">
-                        <img src="{{ url_for('static', filename='media/' + ad.image_filename) }}" class="card-img-top" alt="Image" />
+                <li class="col-md-4 mb-4">
+                    <div class="card shadow-lg">
+                        <img src="{{ url_for('static', filename='media/' + ad.image_filename) }}" class="card-img-top" alt="Image" styl="height: 200px; object-fit: cover;" />
                         <div class="card-body">
                             <h5 class="card-title">{{ ad.title }}</h5>
                             <p class="card-text">{{ ad.description }}</p>
                             <p class="text-center">
-                                <!-- Кнопка редактирования -->
                                 <a href="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" class="btn btn-warning">Редактировать</a>
                             </p>
                         </div>
@@ -28,19 +29,38 @@
         {% endif %}
         </ul>
 
-        <p class="text-center mt-4">
-            <a href="{{ url_for('ad.add_ad') }}" class="btn btn-success">Добавить объявление</a>
-        </p>
-        
         <div class="text-center mt-4">
+            <a href="{{ url_for('ad.add_ad') }}" class="btn btn-success btn-lg">Добавить объявление</a>
+        </div>
+        
+        <div class="text-center mt-5">
         {% if current_user.is_authenticated %}
-            <p><a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Выйти</a></p>
+            <p><a href="{{ url_for('auth.logout') }}" class="btn btn-danger btn-lg">Выйти</a></p>
         {% else %}
             <p>
-                <a href="{{ url_for('auth.login') }}" class="btn btn-info">Войти</a>
-                <a href="{{ url_for('auth.register') }}" class="btn btn-warning">Регистрация</a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-info btn-lg">Войти</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg">Регистрация</a>
             </p>
         {% endif %}
         </div>
     </div>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .btn {
+            border-radius: 25px;
+        }
+        hr {
+            border-top: 2px solid #007bff;
+        }
+    </style>
 {% endblock %}

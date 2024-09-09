@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактировать Объявление</title>
+    <title>Редактировать объявление</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>Редактировать Объявление</h1>
+        <h1 class="text-center">Редактировать объявление</h1>
         
         <!-- Проверка на наличие сообщений flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -20,11 +21,6 @@
                 </ul>
             {% endif %}
         {% endwith %}
-
-        <!-- Добавленная кнопка "Редактировать" -->
-        <div class="edit-button">
-            <a href="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" class="btn">Редактировать</a>
-        </div>
 
         <form action="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -42,9 +38,9 @@
                     <p>Текущее изображение: <img src="{{ url_for('static', filename='uploads/' + ad.image_filename) }}" alt="Объявление" style="max-width: 100px;"></p>
                 {% endif %}
             </div>
-            <div class="form-group">
-                <button type="submit">Сохранить изменения</button>
-                <a href="{{ url_for('home.index') }}" class="btn">Отмена</a>
+            <div class="form-group text-center">
+                <button type="submit" class="btn">Сохранить изменения</button>
+                <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Отмена</a>
             </div>
         </form>
 
@@ -52,17 +48,24 @@
         <form action="{{ url_for('ad.delete_ad', ad_id=ad.id) }}" method="post" style="display: inline;">
             <button type="submit" class="btn btn-danger">Удалить объявление</button>
         </form>
-
     </div>
 
     <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+        }
         .container {
             max-width: 600px;
-            margin: auto;
+            margin: 2rem auto;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
         }
         .form-group {
             margin-bottom: 15px;
@@ -84,12 +87,24 @@
         }
         .btn {
             display: inline-block;
-            padding: 10px 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn {
             background-color: #007bff;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
         }
         .btn-danger {
             background-color: red;
