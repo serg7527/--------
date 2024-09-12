@@ -10,6 +10,6 @@ COPY . .
 ENV FLASK_APP=main.py
 ENV FLASK_ENV=development
 
-EXPOSE 5000
+EXPOSE 8000
 
-CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0", "main:app"]
