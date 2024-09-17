@@ -2,9 +2,20 @@
 <html>
 <head>
     <title>ОДИНОЧКА.БАЙ</title>
-    <!-- Подключение Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/styles.css"> <!-- Подключение вашего собственного CSS -->
+    <style>
+        .nav-link {
+            border-radius: 20px; /* Края кнопок более округлые */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход */
+            padding: 10px 20px; /* Добавить внутренние отступы для кнопок */
+        }
+
+        .nav-link:hover {
+            background-color: #007bff; /* Цвет фона при наведении */
+            color: white; /* Цвет текста при наведении */
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
