@@ -22,32 +22,36 @@
             {% endif %}
         {% endwith %}
 
-        <form action="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="title">Заголовок</label>
-                <input type="text" id="title" name="title" value="{{ ad.title }}" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Описание</label>
-                <textarea id="description" name="description" required>{{ ad.description }}</textarea>
-            </div>
-            <div class="form-group">
-                <label for="image">Изображение</label>
-                <input type="file" id="image" name="image">
-                {% if ad.image_filename %}
-                    <p>Текущее изображение: <img src="{{ url_for('static', filename='uploads/' + ad.image_filename) }}" alt="Объявление" style="max-width: 100px;"></p>
-                {% endif %}
-            </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn">Сохранить изменения</button>
-                <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Отмена</a>
-            </div>
-        </form>
+        {% if current_user.is_authenticated and current_user.id == ad.user_id %}
+            <form action="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Заголовок</label>
+                    <input type="text" id="title" name="title" value="{{ ad.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание</label>
+                    <textarea id="description" name="description" required>{{ ad.description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Изображение</label>
+                    <input type="file" id="image" name="image">
+                    {% if ad.image_filename %}
+                        <p>Текущее изображение: <img src="{{ url_for('static', filename='uploads/' + ad.image_filename) }}" alt="Объявление" style="max-width: 100px;"></p>
+                    {% endif %}
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn">Сохранить изменения</button>
+                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </form>
 
-        <!-- Форма для удаления объявления -->
-        <form action="{{ url_for('ad.delete_ad', ad_id=ad.id) }}" method="post" style="display: inline;">
-            <button type="submit" class="btn btn-danger">Удалить объявление</button>
-        </form>
+            <!-- Форма для удаления объявления -->
+            <form action="{{ url_for('ad.delete_ad', ad_id=ad.id) }}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Удалить объявление</button>
+            </form>
+        {% else %}
+            <p>Вы не имеете прав для редактирования этого объявления.</p>
+        {% endif %}
     </div>
 
     <style>

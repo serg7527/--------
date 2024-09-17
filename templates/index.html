@@ -13,12 +13,14 @@
             {% for ad in ads %}
                 <li class="col-md-4 mb-4">
                     <div class="card shadow-lg">
-                        <img src="{{ url_for('static', filename='media/' + ad.image_filename) }}" class="card-img-top" alt="Image" styl="height: 200px; object-fit: cover;" />
+                        <img src="{{ url_for('static', filename='media/' + ad.image_filename) }}" class="card-img-top" alt="Image" style="height: 200px; object-fit: cover;" />
                         <div class="card-body">
                             <h5 class="card-title">{{ ad.title }}</h5>
                             <p class="card-text">{{ ad.description }}</p>
                             <p class="text-center">
-                                <a href="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" class="btn btn-warning">Редактировать</a>
+                                {% if current_user.is_authenticated and current_user.id == ad.user_id %}
+                                    <a href="{{ url_for('ad.edit_ad', ad_id=ad.id) }}" class="btn btn-warning">Редактировать</a>
+                                {% endif %}
                             </p>
                         </div>
                     </div>
