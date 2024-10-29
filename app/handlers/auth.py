@@ -3,6 +3,7 @@ from flask import Blueprint, request, flash, redirect, url_for, render_template
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 from app.config import db
 from app.models import User
 
@@ -57,6 +58,8 @@ def login():
         else:
             flash("Неверные учетные данные. Пожалуйста, попробуйте снова.", "danger")
     return render_template("login.html")
+
+
 
 @bp.route("/logout")
 @login_required
