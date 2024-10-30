@@ -9,7 +9,9 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center">Редактировать объявление</h1>
+       <div style="display: flex; justify-content: center; align-items: center; height: 8vh;">
+            <h1 class="text-center">Редактировать объявление</h1>
+       </div>
         
         <!-- Проверка на наличие сообщений flash -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -30,15 +32,16 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
-                    <textarea id="description" name="description" rows="5" cols="82" required>{{ ad.description }}</textarea>
+                    <textarea id="description" name="description" rows="2" cols="82" required>{{ ad.description }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="image">Изображение</label>
-                    <input type="file" id="image" name="image">
+                    <input type="file" id="image" name="image" />
                     {% if ad.image_filename %}
-                        <p>Текущее изображение: <img src="{{ url_for('static', filename='uploads/' + ad.image_filename) }}" alt="Объявление" style="max-width: 100px;"></p>
+                    <p>Текущее изображение:</p>
+                    <img src="{{ url_for('static', filename='media/' + ad.image_filename) }}" alt="Объявление" class="img-thumbnail" style="max-width:100px" />
                     {% endif %}
-                </div>
+                    </div>
                 <div class="form-group text-center">
                     <button type="submit" class="btn">Сохранить изменения</button>
                     <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Отмена</a>
